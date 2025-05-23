@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0d41cdee-5996-4476-8193-da2497faa0cc" name="Cambios" comment="Cambios">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/30c9cc2f-be22-41ca-8610-a83ebe9eac6d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/30c9cc2f-be22-41ca-8610-a83ebe9eac6d.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ecuplot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ecuplot.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ecuplot.session" beforeDir="false" afterPath="$PROJECT_DIR$/Ecuplot.session" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/ecuplot_db.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/ecuplot_db.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2n60LtCGYf55IZUGZ91NVlXfnK2" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.db_controller.executor": "Run",
+    "Python.db_gestor.executor": "Run",
+    "Python.limites.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/jfdua/Documents/Ecuplot/database/ecuplot_db.db",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "database.query.execution",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jfdua\Documents\ecuplot\plugins\generator" />
+      <recent name="C:\Users\jfdua\Documents\ecuplot" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="nivel de aplicación" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Tarea por defecto">
+      <changelist id="0d41cdee-5996-4476-8193-da2497faa0cc" name="Cambios" comment="" />
+      <created>1728278165870</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1728278165870</updated>
+      <workItem from="1728278166961" duration="1215000" />
+      <workItem from="1728412227230" duration="1773000" />
+      <workItem from="1728711161847" duration="599000" />
+      <workItem from="1728783027949" duration="599000" />
+      <workItem from="1728784143651" duration="606000" />
+      <workItem from="1728961267235" duration="514000" />
+      <workItem from="1728988824839" duration="2849000" />
+      <workItem from="1728998892427" duration="1467000" />
+      <workItem from="1729261901521" duration="2827000" />
+      <workItem from="1729532703363" duration="1545000" />
+      <workItem from="1729626849002" duration="136000" />
+      <workItem from="1729686775945" duration="1146000" />
+      <workItem from="1731079508677" duration="1949000" />
+      <workItem from="1731361744923" duration="1344000" />
+      <workItem from="1731422649615" duration="340000" />
+      <workItem from="1739561624593" duration="14000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ecuplot$limites.coverage" NAME="limites Coverage Results" MODIFIED="1728999536897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/plugins/user_commands" />
+    <SUITE FILE_PATH="coverage/Ecuplot$db_controller.coverage" NAME="db_controller Coverage Results" MODIFIED="1729252544361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
+    <SUITE FILE_PATH="coverage/ecuplot$main.coverage" NAME="main Coverage Results" MODIFIED="1731362011383" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ecuplot$db_controller.coverage" NAME="db_controller Coverage Results" MODIFIED="1729534022205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
+    <SUITE FILE_PATH="coverage/Ecuplot$db_gestor.coverage" NAME="db_gestor Coverage Results" MODIFIED="1728961742286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
+    <SUITE FILE_PATH="coverage/Ecuplot$main.coverage" NAME="main Resultados de Cobertura" MODIFIED="1728278336598" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
