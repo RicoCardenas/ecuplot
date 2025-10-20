@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor Interactivo: Servicios (SOA) vs. Microservicios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 
+    Chosen Palette: Calm Harmony
+    Application Structure Plan: A single-page dashboard with thematic sections (Inicio, Comparativa, Lienzo, Pruebas) navigated via a sticky header. This non-linear structure allows users to explore topics based on their interest, which is more effective for a decision-support tool than a linear presentation. The side-by-side comparison is central to the design, facilitating direct analysis of trade-offs and making the information more digestible and actionable for architects and developers.
+    Visualization & Content Choices: 
+    - Report Info: Monolith problems -> Goal: Motivate -> Viz: Styled cards -> Interaction: Static -> Justification: Clearly sets the stage and problem statement.
+    - Report Info: SOA vs. Microservices definitions/philosophies -> Goal: Compare high-level concepts -> Viz: Radar Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Provides an immediate, powerful visual summary of multi-dimensional trade-offs that a simple table cannot convey.
+    - Report Info: Detailed architectural layers and characteristics -> Goal: Compare details -> Viz: Styled HTML tables with Tailwind -> Interaction: Static -> Justification: Best format for presenting structured, textual data clearly.
+    - Report Info: Testing challenges and tool gap -> Goal: Highlight a critical issue -> Viz: Doughnut Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Visualizes the "gap" or "scarcity" much more effectively than text alone, making the finding from Miao et al. more impactful.
+    - Report Info: Decision Canvas -> Goal: Guide user choice -> Viz: Side-by-side checklist cards -> Interaction: Static -> Justification: Transforms the slide content into a practical, easy-to-use tool within the application.
+    - Library/Method: Chart.js for all charts, rendered on canvas. All other visuals are structured HTML with Tailwind CSS.
+    CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .nav-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-button.active {
+            color: #0ea5e9; /* sky-500 */
+            border-bottom-color: #0ea5e9;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl text-slate-800">🏛️ vs. 🚀</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <button data-view="inicio" class="nav-button text-slate-600 hover:text-sky-500 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Inicio</button>
+                        <button data-view="comparativa" class="nav-button text-slate-600 hover:text-sky-500 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Comparativa Detallada</button>
+                        <button data-view="pruebas" class="nav-button text-slate-600 hover:text-sky-500 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">El Reto de las Pruebas</button>
+                        <button data-view="lienzo" class="nav-button text-slate-600 hover:text-sky-500 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Lienzo de Decisión</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        
+        <!-- INICIO Section -->
+        <section id="inicio" class="section">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Arquitecturas de Software en la Encrucijada</h1>
+                <p class="mt-4 text-lg text-slate-600">Una exploración interactiva para decidir entre Servicios (SOA) y Microservicios.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-200 mb-12">
+                <h2 class="text-2xl font-bold text-slate-800 text-center">El Punto de Partida: La Crisis del Monolito</h2>
+                <p class="text-center mt-2 text-slate-500 italic">"Las aplicaciones monolíticas... hacían uso de componentes estrechamente acoplados, lo que hacía engorroso el mantenimiento, las pruebas y la escalabilidad." - Mamani et al. (2020)</p>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <p class="text-4xl">🐢</p>
+                        <h3 class="font-semibold mt-2">Despliegues Lentos</h3>
+                        <p class="text-sm text-slate-500">El time-to-market se ve afectado por ciclos de entrega largos y riesgosos.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <p class="text-4xl">⛓️</p>
+                        <h3 class="font-semibold mt-2">Fuerte Acoplamiento</h3>
+                        <p class="text-sm text-slate-500">Un cambio pequeño requiere probarlo todo, aumentando la fragilidad.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <p class="text-4xl">⚖️</p>
+                        <h3 class="font-semibold mt-2">Escalabilidad Ineficiente</h3>
+                        <p class="text-sm text-slate-500">Se debe escalar toda la aplicación, malgastando recursos.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <p class="text-4xl">🧱</p>
+                        <h3 class="font-semibold mt-2">Barrera Tecnológica</h3>
+                        <p class="text-sm text-slate-500">Atrapado en una única pila tecnológica que dificulta la modernización.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
+                    <h2 class="text-3xl font-bold text-slate-800">🏛️ Enfoque 1: Servicios (SOA)</h2>
+                    <p class="mt-2 text-amber-600 bg-amber-50 rounded-md p-2 text-sm font-semibold text-center">El Paradigma de la Integración Empresarial</p>
+                    <p class="mt-4 text-slate-600">Un estilo arquitectónico enfocado en la **integración de sistemas heterogéneos** y la **reutilización de servicios** a nivel empresarial, orquestados por un middleware central (ESB).</p>
+                    <div class="mt-4 p-4 bg-slate-100 rounded-lg">
+                        <p class="font-semibold text-center text-slate-800">🧠 Filosofía Clave: "Inteligencia en la Tubería, Endpoints Tontos"</p>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-200">
+                    <h2 class="text-3xl font-bold text-slate-800">🚀 Enfoque 2: Microservicios</h2>
+                    <p class="mt-2 text-sky-600 bg-sky-50 rounded-md p-2 text-sm font-semibold text-center">El Catalizador de la Agilidad Continua</p>
+                    <p class="mt-4 text-slate-600">Estructura una aplicación como una colección de **servicios pequeños, autónomos y desplegables de forma independiente**, alineados con capacidades de negocio.</p>
+                    <div class="mt-4 p-4 bg-slate-100 rounded-lg">
+                        <p class="font-semibold text-center text-slate-800">💪 Filosofía Clave: "Endpoints Inteligentes, Tuberías Tontas"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPARATIVA Section -->
+        <section id="comparativa" class="section">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Comparativa Estratégica Detallada</h1>
+                <p class="mt-4 text-lg text-slate-600">Analizando las diferencias fundamentales entre SOA y Microservicios.</p>
+            </div>
+            
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-slate-200 mb-12">
+                <h3 class="text-xl font-bold text-center text-slate-800 mb-4">Visualización de Trade-offs Arquitectónicos</h3>
+                <div class="chart-container">
+                    <canvas id="comparisonRadarChart"></canvas>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- SOA Column -->
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4 text-center">🏛️ Arquitectura Típica de SOA</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-slate-100">
+                                <tr>
+                                    <th class="py-2 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Capa</th>
+                                    <th class="py-2 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Responsabilidad</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="py-3 px-4 font-semibold">🏢 Presentación</td><td class="py-3 px-4 text-sm">Consumir los servicios de negocio.</td></tr>
+                                <tr><td class="py-3 px-4 font-semibold">🧠 Orquestación (ESB)</td><td class="py-3 px-4 text-sm"><b>El cerebro.</b> Enruta, transforma y coordina las llamadas.</td></tr>
+                                <tr><td class="py-3 px-4 font-semibold">⚙️ Servicios</td><td class="py-3 px-4 text-sm">Exponer funcionalidad de grano grueso con contratos formales.</td></tr>
+                                <tr><td class="py-3 px-4 font-semibold">💾 Datos</td><td class="py-3 px-4 text-sm">Persistencia centralizada y compartida.</td></tr>
+                                <tr><td class="py-3 px-4 font-semibold">📜 Gobernanza</td><td class="py-3 px-4 text-sm">Comité central que aprueba contratos (WSDL).</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Microservices Column -->
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4 text-center">🚀 Arquitectura Propuesta: Modelo AMDISC</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-slate-100">
+                                <tr>
+                                    <th class="py-2 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Capa</th>
+                                    <th class="py-2 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Responsabilidad</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="py-3 px-4 font-semibold">💻 Presentación</td><td class="py-3 px-4 text-sm">Experiencia de usuario (React, Vue).</td></tr>
+                                <tr><td class="py-3 px-4 font-semibold">🚀 Microservicios</td><td class="py-3 px-4 text-sm">Lógica de negocio con pipeline de CI/CD propio.</td></tr>
+                                <tr><td class="py-3 px-4 font-semibold">💾 Datos</td><td class="py-3 px-4 text-sm"><b>Base de datos por servicio</b> para desacoplamiento.</td></tr>
+                                <tr><td class="py-3 px-4 font-semibold">☁️ Infraestructura</td><td class="py-3 px-4 text-sm">Plataforma de despliegue elástica (Nube).</td></tr>
+                                <tr><td class="py-3 px-4 font-semibold">🔄 DevOps (Transversal)</td><td class="py-3 px-4 text-sm">Cultura y automatización que unifica el ciclo de vida.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRUEBAS Section -->
+        <section id="pruebas" class="section">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">La Dimensión Crítica: El Reto de las Pruebas</h1>
+                <p class="mt-4 text-lg text-slate-600">La autonomía tiene un precio: la complejidad de las pruebas en un sistema distribuido.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                     <h2 class="text-2xl font-bold text-slate-800 mb-4 text-center">Estrategias de Prueba Contrastadas</h2>
+                     <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-slate-800 text-white">
+                                <tr><th class="py-2 px-4 text-left font-semibold">🏛️ Pruebas en SOA</th><th class="py-2 px-4 text-left font-semibold">🚀 Pruebas en Microservicios</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="py-3 px-4">🧪 **Enfoque en E2E:** Validar procesos completos a través del ESB.</td><td class="py-3 px-4">🔺 **Pirámide de Pruebas:** Prioridad en unitarias y de componente.</td></tr>
+                                <tr><td class="py-3 px-4">📜 **Contratos Rígidos:** El WSDL facilita las pruebas de integración.</td><td class="py-3 px-4">🤝 **Pruebas de Contrato (CDC):** Críticas para asegurar la compatibilidad.</td></tr>
+                                <tr><td class="py-3 px-4">💥 **Punto de Fallo Central:** Simular la caída de un servicio en el ESB.</td><td class="py-3 px-4">🌪️ **Pruebas de Resiliencia:** Necesidad de inyección de fallos.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-6 rounded-r-lg shadow-md">
+                    <h3 class="text-xl font-bold text-red-900">La Brecha Crítica en Herramientas</h3>
+                    <p class="mt-2 italic">"Existe una notable escasez de herramientas dedicadas a la generación de casos de prueba diseñadas específicamente para microservicios."</p>
+                    <p class="text-right font-semibold mt-2">- Miao et al. (2024)</p>
+                    <div class="mt-4 chart-container h-48 md:h-64 max-h-200">
+                        <canvas id="testingGapChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIENZO Section -->
+        <section id="lienzo" class="section">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">El Lienzo de Decisión Estratégica</h1>
+                <p class="mt-4 text-lg text-slate-600">Utiliza estas guías para determinar qué arquitectura se alinea mejor con tus objetivos.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+                <div class="bg-white p-8 rounded-xl shadow-lg border-2 border-amber-300 flex flex-col">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">🏛️ Elije SOA si...</h2>
+                    <ul class="space-y-3 text-slate-600 flex-grow">
+                        <li class="flex items-start"><span class="text-amber-500 mr-3">✅</span>Tu principal desafío es **integrar sistemas legacy** heterogéneos.</li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3">✅</span>La **reutilización y estandarización** a nivel empresarial es la máxima prioridad.</li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3">✅</span>Tienes procesos de negocio complejos que requieren **orquestación central**.</li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3">✅</span>Necesitas una **gobernanza fuerte y centralizada** sobre los datos y servicios.</li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3">✅</span>Tu organización tiene una cultura más tradicional y prefiere un enfoque "top-down".</li>
+                        <li class="flex items-start"><span class="text-amber-500 mr-3">✅</span>El presupuesto y la experiencia para un ESB no son un problema.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg border-2 border-sky-300 flex flex-col">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-4">🚀 Elije Microservicios si...</h2>
+                    <ul class="space-y-3 text-slate-600 flex-grow">
+                        <li class="flex items-start"><span class="text-sky-500 mr-3">✅</span>Tu principal objetivo es la **velocidad de entrega** (time-to-market).</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-3">✅</span>Necesitas **escalar componentes de forma independiente** y elástica.</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-3">✅</span>Quieres fomentar la **autonomía y la innovación** en los equipos.</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-3">✅</span>Estás construyendo una **aplicación nueva (greenfield)** nativa de la nube.</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-3">✅</span>Tu organización está adoptando o ya tiene una **cultura DevOps**.</li>
+                        <li class="flex items-start"><span class="text-sky-500 mr-3">✅</span>Estás dispuesto a invertir en una **plataforma de operaciones moderna**.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-white mt-12">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-center mb-8">Conclusiones Accionables</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
+                <div class="p-4">
+                    <h3 class="font-semibold text-sky-300">1. El Contexto Manda</h3>
+                    <p class="mt-2 text-sm text-slate-300">No hay bala de plata. SOA para integración, Microservicios para agilidad.</p>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-semibold text-sky-300">2. La Cultura es Prerrequisito</h3>
+                    <p class="mt-2 text-sm text-slate-300">Los Microservicios sin una cultura DevOps están destinados a fracasar.</p>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-semibold text-sky-300">3. La Complejidad se Transforma</h3>
+                    <p class="mt-2 text-sm text-slate-300">Cambias la complejidad del código monolítico por la de las operaciones distribuidas.</p>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-semibold text-sky-300">4. Invertir en Pruebas y Observabilidad</h3>
+                    <p class="mt-2 text-sm text-slate-300">Son tus redes de seguridad. Las pruebas de contrato (CDC) no son negociables.</p>
+                </div>
+                 <div class="p-4">
+                    <h3 class="font-semibold text-sky-300">5. Empezar Pequeño</h3>
+                    <p class="mt-2 text-sm text-slate-300">Migra de forma incremental o empieza con un "monolito modular".</p>
+                </div>
+                 <div class="p-4">
+                    <h3 class="font-semibold text-sky-300">6. Decisión Estratégica</h3>
+                    <p class="mt-2 text-sm text-slate-300">La elección de la arquitectura define la velocidad, el costo y la cultura de tu equipo.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const appState = {
+                currentView: 'inicio',
+                charts: {}
+            };
+
+            const sections = document.querySelectorAll('.section');
+            const navButtons = document.querySelectorAll('.nav-button');
+
+            function render() {
+                sections.forEach(section => {
+                    if (section.id === appState.currentView) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                navButtons.forEach(button => {
+                    if (button.dataset.view === appState.currentView) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                });
+
+                // Lazy load charts
+                if (appState.currentView === 'comparativa' && !appState.charts.radar) {
+                    createComparisonRadarChart();
+                }
+                if (appState.currentView === 'pruebas' && !appState.charts.doughnut) {
+                    createTestingGapChart();
+                }
+            }
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    appState.currentView = button.dataset.view;
+                    render();
+                });
+            });
+
+            function createComparisonRadarChart() {
+                const ctx = document.getElementById('comparisonRadarChart').getContext('2d');
+                appState.charts.radar = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Agilidad (CI/CD)', 'Gobernanza', 'Complejidad Operativa', 'Costo Inicial', 'Escalabilidad Granular', 'Autonomía de Equipo'],
+                        datasets: [{
+                            label: '🏛️ SOA',
+                            data: [2, 9, 7, 9, 5, 3],
+                            fill: true,
+                            backgroundColor: 'rgba(251, 191, 36, 0.2)', // amber-300
+                            borderColor: 'rgb(251, 191, 36)',
+                            pointBackgroundColor: 'rgb(251, 191, 36)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(251, 191, 36)'
+                        }, {
+                            label: '🚀 Microservicios',
+                            data: [9, 3, 8, 6, 9, 9],
+                            fill: true,
+                            backgroundColor: 'rgba(14, 165, 233, 0.2)', // sky-500
+                            borderColor: 'rgb(14, 165, 233)',
+                            pointBackgroundColor: 'rgb(14, 165, 233)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(14, 165, 233)'
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        elements: {
+                            line: {
+                                borderWidth: 3
+                            }
+                        },
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    color: 'rgba(0, 0, 0, 0.1)'
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 10,
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.1)'
+                                },
+                                pointLabels: {
+                                    font: {
+                                        size: 12
+                                    }
+                                },
+                                ticks: {
+                                   backdropColor: 'rgba(255, 255, 255, 0.75)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        label += context.raw;
+                                        return label + '/10';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function createTestingGapChart() {
+                const ctx = document.getElementById('testingGapChart').getContext('2d');
+                appState.charts.doughnut = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Herramientas Dedicadas a Microservicios', 'Oportunidad / Brecha Actual'],
+                        datasets: [{
+                            label: 'Disponibilidad de Herramientas de Pruebas',
+                            data: [15, 85],
+                            backgroundColor: [
+                                'rgb(56, 189, 248)', // sky-400
+                                'rgb(224, 231, 255)'  // indigo-100
+                            ],
+                            borderColor: [
+                                'rgb(14, 165, 233)', // sky-500
+                                'rgb(199, 210, 254)'  // indigo-200
+                            ],
+                            borderWidth: 1,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Disponibilidad de Herramientas de Generación de Pruebas'
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Initial render
+            render();
+        });
+    </script>
+</body>
+</html>

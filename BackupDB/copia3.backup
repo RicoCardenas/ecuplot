@@ -1,0 +1,2 @@
+"id","role_id","email","username","password_hash","display_name","is_active","created_at","last_login"
+"1","1","juliancardenas@gmail.com","pedro","xsw",NULL,True,"2025-10-17 09:48:05.629278-05",NULL
